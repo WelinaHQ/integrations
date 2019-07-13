@@ -1,0 +1,18 @@
+{
+	"name": "welina-github-connect",
+  "version": 2,
+  "alias": "github-connect",
+  "builds": [
+		{ "src": "index.js", "use": "@now/node" }
+	],
+	"routes": [
+		{ "src": "/connect-with-github", "dest": "/connect-with-github.js" },
+		{ "src": "/github-callback", "dest": "/github-callback.js" }
+	],
+	"env": {
+		"NODE_ENV": "production",
+		"ROOT_URL": "<add your production alias>",
+		"GITHUB_CLIENT_ID": "<add your github client id>",
+		"GITHUB_CLIENT_SECRET": "<add your github client secret>"
+	}
+}

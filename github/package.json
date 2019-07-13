@@ -1,0 +1,10 @@
+{
+	"name": "welina-github-connect",
+	"dependencies": {
+		"cookie": "^0.3.1",
+		"htm": "^2.1.1",
+		"node-fetch": "^2.5.0",
+    "querystring": "^0.2.0",
+    "@welina/integration-utils": "latest"
+	}
+}
