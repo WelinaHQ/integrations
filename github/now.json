@@ -1,7 +1,8 @@
 {
-	"name": "welina-github-connect",
+	"name": "github-connect",
   "version": 2,
-  "alias": "github-connect",
+	"alias": "welina-github-connect",
+	"scope": "welina",
   "builds": [
 		{ "src": "index.js", "use": "@now/node" }
 	],
