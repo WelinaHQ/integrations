@@ -4,16 +4,18 @@
 	"alias": "welina-github-connect",
 	"scope": "welina",
   "builds": [
-		{ "src": "index.js", "use": "@now/node" }
+		{ "src": "index.js", "use": "@now/node" },
+		{ "src": "connect.js", "use": "@now/node" },
+		{ "src": "callback.js", "use": "@now/node" }
 	],
 	"routes": [
-		{ "src": "/connect-with-github", "dest": "/connect-with-github.js" },
-		{ "src": "/github-callback", "dest": "/github-callback.js" }
+		{ "src": "/connect", "dest": "/connect.js" },
+		{ "src": "/callback", "dest": "/callback.js" }
 	],
 	"env": {
 		"NODE_ENV": "production",
-		"ROOT_URL": "<add your production alias>",
-		"GITHUB_CLIENT_ID": "<add your github client id>",
-		"GITHUB_CLIENT_SECRET": "<add your github client secret>"
+		"ROOT_URL": "@root-url",
+		"GITHUB_CLIENT_ID": "@github-client-id",
+		"GITHUB_CLIENT_SECRET": "@github-client-secret"
 	}
 }
