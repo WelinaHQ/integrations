@@ -10,6 +10,10 @@ const resolvers = {
   },
   onDepartureDay: ({}) => {
     // Hook
+  },
+  disconnect: async ({ welinaClient }) => {
+    delete metadata.githubTokenInfo;
+		await welinaClient.setMetadata(metadata);
   }
 };
 
@@ -21,11 +25,11 @@ module.exports = withUiHook(async options => {
   console.log("action", action);
   console.log("clientState", clientState);
 
-  // const resolver = resolvers[action];
+  const resolver = resolvers[action];
 
-  // if (resolver) {
-  //   return await resolver({ welinaClient, payload });
-  // }
+  if (resolver) {
+    return await resolver({ welinaClient, payload });
+  }
 
   const metadata = await welinaClient.getMetadata() || {};
 

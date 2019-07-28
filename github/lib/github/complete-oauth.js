@@ -33,7 +33,8 @@ async function completeOAuthProcess({ code, welinaClient, metadata }) {
     throw new Error(`GitHub OAuth issue: ${tokenInfo.error_description}`);
   }
 
-  await welinaClient.updateMetadata({ githubTokenInfo: tokenInfo });
+  metadata.githubTokenInfo = tokenInfo;
+  await welinaClient.setMetadata(metadata);
 }
 
 module.exports = completeOAuthProcess;
