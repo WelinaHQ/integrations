@@ -18,8 +18,6 @@ async function completeOAuthProcess({ code, welinaClient, metadata }) {
     })
   });
 
-  console.log("completeOAuthProcess response", response);
-
   if (response.status !== 200) {
     throw new Error(
       `Invalid status code on GitHub token fetching: ${

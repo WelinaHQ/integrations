@@ -18,12 +18,8 @@ const resolvers = {
 };
 
 module.exports = withUiHook(async options => {
-  console.log("options", options);
   const { payload, welinaClient } = options;
   const { action, clientState } = payload;
-
-  console.log("action", action);
-  console.log("clientState", clientState);
 
   const resolver = resolvers[action];
 
@@ -32,9 +28,6 @@ module.exports = withUiHook(async options => {
   }
 
   const metadata = await welinaClient.getMetadata() || {};
-
-  console.log("metadata", metadata);
-  console.log("payload.query", payload.query);
 
   if (!metadata.githubTokenInfo && payload.query && payload.query.code) {
     await completeOAuthProcess({
