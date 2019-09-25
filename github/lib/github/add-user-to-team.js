@@ -1,38 +1,37 @@
-// const qs = require("querystring");
-// const fetch = require("node-fetch");
-
-// const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
+const Octokit = require("@octokit/rest");
+const { get } = require("dot-prop");
 
 async function addUserToTeam({ member, metadata }) {
-  // const url = `https://github.com/login/oauth/access_token`;
-  // const response = await fetch(url, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/x-www-form-urlencoded",
-  //     Accept: "application/json"
-  //   },
-  //   body: qs.stringify({
-  //     client_id: GITHUB_CLIENT_ID,
-  //     client_secret: GITHUB_CLIENT_SECRET,
-  //     code
-  //   })
-  // });
+  const octokit = new Octokit({
+    auth: `token ${get(metadata, "githubTokenInfo.access_token")}`,
+    userAgent: "octokit/rest.js v1.2.3",
+    previews: ["mercy-preview"]
+  });
 
-  // if (response.status !== 200) {
-  //   throw new Error(
-  //     `Invalid status code on GitHub token fetching: ${
-  //       response.status
-  //     } error: ${await response.text()}`
-  //   );
-  // }
+  const username = member.github_username;
+  console.log("username", username);
 
-  // const tokenInfo = await response.json();
-  // if (tokenInfo.error) {
-  //   throw new Error(`GitHub OAuth issue: ${tokenInfo.error_description}`);
-  // }
+  if (!username) {
+    console.log("aborting because member don't have a github username");
+    return false;
+  }
 
-  // metadata.githubTokenInfo = tokenInfo;
-  // await welinaClient.setMetadata(metadata);
+  try {
+    const result = await octokit.teams.addOrUpdateMembership({
+      team_id: metadata.team,
+      username,
+      mediaType: {
+        previews: ["dazzler", "dazzler-preview"]
+      }
+    });
+
+    console.log("result", result);
+
+    return { success: true };
+  } catch (error) {
+    console.error("error", error);
+    throw error;
+  }
 }
 
 module.exports = addUserToTeam;

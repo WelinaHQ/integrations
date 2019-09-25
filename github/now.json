@@ -6,11 +6,15 @@
   "builds": [
 		{ "src": "index.js", "use": "@now/node" },
 		{ "src": "connect.js", "use": "@now/node" },
-		{ "src": "callback.js", "use": "@now/node" }
+		{ "src": "callback.js", "use": "@now/node" },
+		{ "src": "check-action-config.js", "use": "@now/node" },
+		{ "src": "actions/*.js", "use": "@now/node" }
 	],
 	"routes": [
 		{ "src": "/connect", "dest": "/connect.js" },
-		{ "src": "/callback", "dest": "/callback.js" }
+		{ "src": "/callback", "dest": "/callback.js" },
+		{ "src": "/check-action-config", "dest": "/check-action-config.js" },
+		{ "src": "/add-member-in-team", "dest": "/actions/add-member-in-team.js" }
 	],
 	"env": {
 		"NODE_ENV": "production",

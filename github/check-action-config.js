@@ -3,9 +3,13 @@ const getGitHubTeams = require("./lib/github/get-teams");
 
 
 module.exports = withUiHook(async ({ payload, welinaClient }) => {
+  console.log('payload', payload);
   const { clientState = {} } = payload;
 
+  console.log('welinaClient', welinaClient);
+
   const metadata = (await welinaClient.getMetadata()) || {};
+  console.log('metadata', metadata);
   const githubTeams = await getGitHubTeams(metadata.githubTokenInfo);
 
   if (githubTeams.length === 0) {
@@ -22,14 +26,12 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
     label: `${team.organization.login} > ${team.name}`
   }));
 
-  clientState.test = "wahoo";
-
   return htm`
     <Page>
       <P>In which github team would you like to add those members?</P>
       <Select
         name="team"
-        value="${clientState.teamId}"
+        value="${clientState.teamId || options[0].id}"
         placeholder="Select a github team"
       >
       ${options.map(option => htm`

@@ -1,12 +1,14 @@
 {
 	"name": "welina-github-connect",
 	"scripts": {
-		"deploy:prod": "now --target=production --scope=welina",
-		"dev": "now dev -p 5005"
+		"deploy:prod": "now --prod --scope=welina",
+		"dev": "now dev --listen 5005"
 	},
 	"dependencies": {
+		"@octokit/rest": "^16.28.9",
 		"@welina/integration-utils": "latest",
 		"cookie": "0.3.1",
+		"dot-prop": "^5.1.0",
 		"htm": "2.1.1",
 		"node-fetch": "^2.6.0",
 		"querystring": "0.2.0"
