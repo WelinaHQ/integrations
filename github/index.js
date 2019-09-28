@@ -1,19 +1,13 @@
 const { htm, withUiHook } = require("@welina/integration-utils");
-const completeOAuthProcess = require("./lib/github/complete-oauth");
-const getGitHubUser = require("./lib/github/get-user");
+const completeOAuthProcess = require("./lib/complete-oauth");
+const getGitHubUser = require("./lib/get-user");
 
 const { ROOT_URL } = process.env;
 
 const resolvers = {
-  onFirstStartingDay: ({}) => {
-    // Hook
-  },
-  onDepartureDay: ({}) => {
-    // Hook
-  },
   disconnect: async ({ welinaClient }) => {
     delete metadata.githubTokenInfo;
-		await welinaClient.setMetadata(metadata);
+    await welinaClient.setMetadata(metadata);
   }
 };
 
@@ -21,13 +15,17 @@ module.exports = withUiHook(async options => {
   const { payload, welinaClient } = options;
   const { action, clientState } = payload;
 
-  const resolver = resolvers[action];
+  if (action) {
+    const resolver = resolvers[action];
 
-  if (resolver) {
-    return await resolver({ welinaClient, payload });
+    if (resolver) {
+      return await resolver({ welinaClient, payload });
+    }
+
+    throw new Error(`Sorry, resolver ${action} does not exist.`)
   }
 
-  const metadata = await welinaClient.getMetadata() || {};
+  const metadata = (await welinaClient.getMetadata()) || {};
 
   if (!metadata.githubTokenInfo && payload.query && payload.query.code) {
     await completeOAuthProcess({

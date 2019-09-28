@@ -1,11 +1,12 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
 async function getGitHubUser(tokenInfo) {
   const url = `https://api.github.com/user`;
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${tokenInfo["access_token"]}`
+      Authorization: `Bearer ${tokenInfo["access_token"]}`,
+      "user-Agent": "Welina"
     }
   });
 

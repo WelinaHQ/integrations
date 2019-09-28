@@ -9,7 +9,8 @@ async function completeOAuthProcess({ code, welinaClient, metadata }) {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Accept: "application/json"
+      Accept: "application/json",
+      "user-Agent": "Welina"
     },
     body: qs.stringify({
       client_id: GITHUB_CLIENT_ID,

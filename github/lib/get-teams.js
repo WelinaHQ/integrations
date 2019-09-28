@@ -4,6 +4,7 @@ async function getTeams(githubTokenInfo) {
   try {
     const octokit = new Octokit({
       auth: `token ${githubTokenInfo.access_token}`,
+      userAgent: "Welina",
       previews: ["mercy-preview"]
     });
 

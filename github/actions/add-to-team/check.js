@@ -1,5 +1,5 @@
 const { htm, withUiHook } = require("@welina/integration-utils");
-const getGitHubTeams = require("./lib/github/get-teams");
+const getGitHubTeams = require("../../lib/get-teams");
 
 
 module.exports = withUiHook(async ({ payload, welinaClient }) => {
