@@ -1,0 +1,25 @@
+{
+	"name": "google-connect",
+  "version": 2,
+	"alias": "welina-google-connect",
+	"scope": "welina",
+  "builds": [
+		{ "src": "index.js", "use": "@now/node" },
+		{ "src": "connect.js", "use": "@now/node" },
+		{ "src": "callback.js", "use": "@now/node" },
+		{ "src": "actions/**/*.js", "use": "@now/node" }
+	],
+	"routes": [
+		{ "src": "/connect", "dest": "/connect.js" },
+		{ "src": "/callback", "dest": "/callback.js" },
+		{ "src": "/create-user/check", "dest": "/actions/create-user/check.js" },
+		{ "src": "/create-user/set", "dest": "/actions/create-user/set.js" },
+		{ "src": "/create-user/unset", "dest": "/actions/create-user/unset.js" }
+	],
+	"env": {
+		"NODE_ENV": "production",
+		"ROOT_URL": "https://google-connect.welina.now.sh",
+		"GOOGLE_CLIENT_ID": "969539219552-c32fdu5o5b689t3ktra7usa0b083s60o.apps.googleusercontent.com",
+		"GOOGLE_CLIENT_SECRET": "@google-client-secret"
+	}
+}

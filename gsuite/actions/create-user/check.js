@@ -4,15 +4,12 @@ const getGitHubTeams = require("../../lib/get-teams");
 module.exports = withUiHook(async ({ payload, welinaClient }) => {
   const { clientState = {} } = payload;
 
-  console.log("welinaClient", welinaClient);
-
   const metadata = (await welinaClient.getMetadata()) || {};
-  console.log("metadata", metadata);
 
   if (!metadata.githubTokenInfo) {
     return htm`
         <Page>
-        <Link href="https://welina.io/integrations/github">Configuration needed</Link>
+          <Link href="https://welina.io/integrations/github">Configuration needed</Link>
         </Page>
       `;
   }

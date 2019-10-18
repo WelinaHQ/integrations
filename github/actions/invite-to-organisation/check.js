@@ -3,11 +3,9 @@ const getGitHubOrgs = require("../../lib/get-orgs");
 
 
 module.exports = withUiHook(async ({ payload, welinaClient }) => {
-  console.log("set hook endpoint", { payload, welinaClient });
   const { clientState = {} } = payload;
 
   const metadata = (await welinaClient.getMetadata()) || {};
-  console.log('metadata', metadata);
   const githubOrgs = await getGitHubOrgs(metadata.githubTokenInfo);
 
   if (githubOrgs.length === 0) {

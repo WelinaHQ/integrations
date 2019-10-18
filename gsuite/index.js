@@ -1,6 +1,6 @@
 const { htm, withUiHook } = require("@welina/integration-utils");
 const completeOAuthProcess = require("./lib/complete-oauth");
-const getGitHubUser = require("./lib/get-user");
+const getDomains = require("./lib/get-domains");
 
 const { ROOT_URL } = process.env;
 
@@ -23,12 +23,12 @@ module.exports = withUiHook(async options => {
       return await resolver({ welinaClient, payload });
     }
 
-    throw new Error(`Sorry, resolver ${action} does not exist.`)
+    throw new Error(`Sorry, resolver ${action} does not exist.`);
   }
 
   const metadata = await welinaClient.getMetadata();
 
-  if (!metadata.githubTokenInfo && payload.query && payload.query.code) {
+  if (!metadata.googleTokenInfo && payload.query && payload.query.code) {
     await completeOAuthProcess({
       code: payload.query.code,
       welinaClient,
@@ -36,17 +36,19 @@ module.exports = withUiHook(async options => {
     });
   }
 
-  if (metadata.githubTokenInfo) {
-    const githubUser = await getGitHubUser(metadata.githubTokenInfo);
-    // <Img src=${githubUser["avatar_url"]} width="64"/>
+  if (metadata.googleTokenInfo) {
+    const domains = await getDomains(metadata.googleTokenInfo);
     return htm`
-			<Page>
-				<P>Connected with Github user:</P>
-        <P>
-          <a target="_blank" href=${"https://github.com/" + githubUser.login}>${githubUser.name || githubUser.login}</a>
-				</P>
-				<Button small action="disconnect">Disconnect</Button>
-			</Page>
+      <Page>
+        <P>Connected domain${domains.length > 1 ? "s" : ""}:</P>
+        <ul>
+          ${domains.map(
+            domain => htm`
+            <li>${domain.domainName}</li>
+          `
+          )}
+        </ul>
+      </Page>
 		`;
   }
 
@@ -56,7 +58,7 @@ module.exports = withUiHook(async options => {
 
   return htm`
     <Page>
-     <Link href=${connectUrl}>Connect With GitHub</Link>
+     <Link href=${connectUrl}>Connect With Google</Link>
     </Page>
   `;
 });

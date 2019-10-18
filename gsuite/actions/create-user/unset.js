@@ -21,6 +21,8 @@ module.exports = async (req, res) => {
     username
   });
 
+  console.log("result", result);
+
   res.json({
     success: true
   });

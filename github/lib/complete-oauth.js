@@ -1,4 +1,4 @@
-const qs = require("querystring");
+const qs = require("query-string");
 const fetch = require("node-fetch");
 
 const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;

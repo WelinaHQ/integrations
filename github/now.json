@@ -21,7 +21,7 @@
 	],
 	"env": {
 		"NODE_ENV": "production",
-		"ROOT_URL": "@root-url",
+		"ROOT_URL": "https://github-connect.welina.now.sh",
 		"GITHUB_CLIENT_ID": "@github-client-id",
 		"GITHUB_CLIENT_SECRET": "@github-client-secret"
 	}

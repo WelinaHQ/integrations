@@ -2,7 +2,6 @@ const Octokit = require("@octokit/rest");
 const { get } = require("dot-prop");
 
 module.exports = async (req, res) => {
-  console.log("unset hook endpoint", req.body);
   const { member, metadata } = req.body;
 
   const org = get(metadata, "orgId_label");
