@@ -19,6 +19,7 @@ async function completeOAuthProcess({ code, welinaClient, metadata }) {
 
 
     metadata.googleTokenInfo = response.tokens;
+    console.log('response.tokens', response.tokens);
 
     auth.setCredentials(metadata.googleTokenInfo);
     const domains = await getDomains(metadata.googleTokenInfo);

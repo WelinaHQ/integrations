@@ -1,6 +1,6 @@
 const { parse: parseUrl } = require("url");
 const cookie = require("cookie");
-const qs = require('query-string');
+const qs = require("query-string");
 const { google } = require("googleapis");
 
 const { ROOT_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
@@ -22,14 +22,15 @@ module.exports = (req, res) => {
 
   const state = `state_${Math.random()}`;
   const SCOPES = [
-    'https://www.googleapis.com/auth/admin.directory.domain.readonly',
-    'https://www.googleapis.com/auth/admin.directory.user'
+    "https://www.googleapis.com/auth/admin.directory.domain.readonly",
+    "https://www.googleapis.com/auth/admin.directory.user"
   ];
   const redirectUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
+    access_type: "offline",
     scope: SCOPES,
+    prompt: "consent"
   });
-  console.log('Authorize this app by visiting this url:', redirectUrl);
+  console.log("Authorize this app by visiting this url:", redirectUrl);
 
   const context = { next: query.next, state };
 
