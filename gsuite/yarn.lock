@@ -107,10 +107,10 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
   integrity sha512-SCcK7mvGi3+ZNz833RRjFIxrn4gI1PPR3NtuIS+6vMkvmsGjosqTJwRt5bAEFLRz+wtJMWv8+uOnZf2hi2QXTg==
 
-"@welina/integration-utils@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/@welina/integration-utils/-/integration-utils-0.3.0.tgz#dd96235bab41847ed85811bba4857c1d129ed81f"
-  integrity sha512-URT84rNlCNNIG/LvDgFlDmDryKG7zwBjCDtY77+/tfjCgjVcUgAKO9QrYcFVw2U+oWinf674fqfXCUxj1oQRMQ==
+"@welina/integration-utils@0.4.3":
+  version "0.4.3"
+  resolved "https://registry.npmjs.org/@welina/integration-utils/-/integration-utils-0.4.3.tgz#1a1388f94baa43129cc48d7e27ae563f0106ce0a"
+  integrity sha512-8R5iCTCZ8rKOV5fSbs3k5tR8jqplUE1r5Ok8YXPdQCfGJDLvvz6uxoFD3lE0bfJeKTBz9E2EYyoCWP88W/3C8w==
   dependencies:
     "@types/request-promise" "4.1.44"
     dot-prop "5.1.0"

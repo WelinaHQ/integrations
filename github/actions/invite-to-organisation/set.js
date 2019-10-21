@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   const { member, metadata } = req.body;
 
   const org = get(metadata, "orgId_label");
-  const email = get(member, "email");
+  const email = get(member, "professional_email") || get(member, "personal_email");
 
   try {
     const octokit = new Octokit({
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       previews: ["mercy-preview"]
     });
   
-    const result = await octokit.orgs.createInvitation({
+    await octokit.orgs.createInvitation({
       org,
       email,
       role: "direct_member",
