@@ -1,29 +1,51 @@
-const Octokit = require("@octokit/rest");
-const { get } = require("dot-prop");
+const { withClient } = require("@welina/integration-utils");
+const { google } = require("googleapis");
+const slugify = require("@sindresorhus/slugify");
 
-module.exports = async (req, res) => {
-  const { member, metadata } = req.body;
+const { ROOT_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
-  const octokit = new Octokit({
-    auth: `token ${get(metadata, "githubTokenInfo.access_token")}`,
-    userAgent: "Welina"
-  });
+module.exports = withClient(async options => {
+  const { payload, welinaClient } = options;
+  const { member, metadata, headers } = payload;
 
-  const username = member.github_username;
+  const auth = new google.auth.OAuth2(
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    `${ROOT_URL}/callback`
+  );
 
-  if (!username) {
-    console.log("aborting because member don't have a github username");
-    return false;
+  auth.setCredentials(metadata.googleTokenInfo);
+
+  const directory = google.admin({ version: "directory_v1", auth });
+
+  try {
+    await directory.users.delete({
+      userKey: member.professional_email
+    });
+  } catch (error) {
+    console.log(`error deleting gsuite user with user key ${member.professional_email}`, error);
+    throw error;
   }
 
-  const result = await octokit.teams.removeMembership({
-    team_id: metadata.team,
-    username
-  });
+  try {
+    const variables = { memberId: member.id, email: null };
+    const mutateRes = await welinaClient.fetchAndThrow(
+      `mutation updateMember($memberId: uuid!, $email: String) {
+      __typename
+      update_member(where: {id: {_eq: $memberId}}, _set: {professional_email: $email}) {
+        affected_rows
+      }
+    }`,
+      variables,
+      headers
+    );
+    console.log('mutateRes', mutateRes)
+  } catch (error) {
+    console.log("error updating welina professional_email", error);
+    throw error;
+  }
 
-  console.log("result", result);
-
-  res.json({
+  return {
     success: true
-  });
-};
+  };
+});
