@@ -1,0 +1,22 @@
+{
+	"name": "sendgrid",
+  "version": 2,
+	"alias": "welina-sendgrid",
+	"scope": "welina",
+  "builds": [
+		{ "src": "index.js", "use": "@now/node" },
+		{ "src": "connect.js", "use": "@now/node" },
+		{ "src": "callback.js", "use": "@now/node" },
+		{ "src": "actions/**/*.js", "use": "@now/node" }
+	],
+	"routes": [
+		{ "src": "/connect", "dest": "/connect.js" },
+		{ "src": "/callback", "dest": "/callback.js" },
+		{ "src": "/send-email/check", "dest": "/actions/send-email/check.js" },
+		{ "src": "/send-email/set", "dest": "/actions/send-email/set.js" }
+	],
+	"env": {
+		"NODE_ENV": "production",
+		"ROOT_URL": "https://sendgrid.welina.now.sh"
+	}
+}

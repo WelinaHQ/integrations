@@ -1,0 +1,20 @@
+{
+	"name": "welina-sendgrid-connect",
+	"scripts": {
+		"deploy:prod": "now --prod --scope=welina",
+		"dev": "now dev --listen 5005"
+	},
+	"dependencies": {
+		"@sendgrid/client": "^6.4.0",
+		"@sendgrid/mail": "^6.4.0",
+		"@sindresorhus/slugify": "^0.9.1",
+		"@welina/integration-utils": "0.4.3",
+		"cookie": "0.3.1",
+		"dot-prop": "5.1.0",
+		"googleapis": "^44.0.0",
+		"htm": "2.1.1",
+		"node-fetch": "2.6.0",
+		"query-string": "^6.8.3"
+	},
+	"version": "0.0.0"
+}

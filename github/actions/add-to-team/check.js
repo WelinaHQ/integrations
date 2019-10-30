@@ -11,10 +11,10 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
 
   if (!metadata.githubTokenInfo) {
     return htm`
-        <Page>
+      <Page>
         <Link href="https://welina.io/integrations/github">Configuration needed</Link>
-        </Page>
-      `;
+      </Page>
+    `;
   }
 
   const githubTeams = await getGitHubTeams(metadata.githubTokenInfo);
