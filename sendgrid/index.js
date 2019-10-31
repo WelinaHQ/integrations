@@ -25,10 +25,10 @@ module.exports = withUiHook(async options => {
     const resolver = actions[action];
 
     if (resolver) {
-      return await resolver({ welinaClient, payload });
+      await resolver({ welinaClient, payload });
+    } else {
+      throw new Error(`Sorry, resolver ${action} does not exist.`);
     }
-
-    throw new Error(`Sorry, resolver ${action} does not exist.`);
   }
 
   const metadata = await welinaClient.getMetadata();
