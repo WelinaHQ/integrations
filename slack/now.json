@@ -1,0 +1,18 @@
+{
+	"name": "slack",
+  "version": 2,
+	"alias": "welina-slack",
+	"scope": "welina",
+  "builds": [
+		{ "src": "index.js", "use": "@now/node" },
+		{ "src": "actions/**/*.js", "use": "@now/node" }
+	],
+	"routes": [
+		{ "src": "/send-invite/check", "dest": "/actions/send-invite/check.js" },
+		{ "src": "/send-invite/set", "dest": "/actions/send-invite/set.js" }
+	],
+	"env": {
+		"SENDGRID_API_KEY": "@slack-sendgrid-api-key",
+		"INVITATION_TEMPLATE_ID": "d-80a7c02c53714c8d970991974ef9e610"
+	}
+}
