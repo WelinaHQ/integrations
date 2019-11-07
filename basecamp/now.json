@@ -1,0 +1,25 @@
+{
+	"name": "basecamp",
+  "version": 2,
+	"alias": "welina-basecamp",
+	"scope": "welina",
+  "builds": [
+		{ "src": "index.js", "use": "@now/node" },
+		{ "src": "connect.js", "use": "@now/node" },
+		{ "src": "callback.js", "use": "@now/node" },
+		{ "src": "actions/**/*.js", "use": "@now/node" }
+	],
+	"routes": [
+		{ "src": "/connect", "dest": "/connect.js" },
+		{ "src": "/callback", "dest": "/callback.js" },
+		{ "src": "/invite-user/check", "dest": "/actions/invite-user/check.js" },
+		{ "src": "/invite-user/set", "dest": "/actions/invite-user/set.js" },
+		{ "src": "/invite-user/unset", "dest": "/actions/invite-user/unset.js" }
+	],
+	"env": {
+		"NODE_ENV": "production",
+		"ROOT_URL": "https://basecamp.welina.now.sh",
+		"BASECAMP_CLIENT_ID": "@basecamp-client-id",
+		"BASECAMP_CLIENT_SECRET": "@basecamp-client-secret"
+	}
+}

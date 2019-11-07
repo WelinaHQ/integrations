@@ -36,7 +36,11 @@ module.exports = withUiHook(async options => {
   if (metadata.invitationLink) {
     return htm`
       <Page>
-        <P>Slack invitation link: ${metadata.invitationLink}</P>
+        <P>Slack invitation link:</P>
+        <Box>
+          <Input name="invitationLink" value="${metadata.invitationLink}" />
+        </Box>
+        <Button action="submitInviteLink" invert>Update</Button>
       </Page>
 		`;
   }

@@ -3,6 +3,8 @@ const { htm, withUiHook } = require("@welina/integration-utils");
 module.exports = withUiHook(async ({ payload, welinaClient }) => {
   const metadata = (await welinaClient.getMetadata()) || {};
 
+  console.log("metadata", metadata);
+
   if (!metadata.invitationLink) {
     return htm`
       <Page>
