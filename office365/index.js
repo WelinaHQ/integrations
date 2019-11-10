@@ -1,13 +1,13 @@
 const { htm, withUiHook } = require("@welina/integration-utils");
 const completeOAuthProcess = require("./lib/complete-oauth");
-const getAuthorizations = require("./lib/get-authorizations");
+const getCurrentUser = require("./lib/get-current-user");
 
 const { ROOT_URL } = process.env;
 
 const actions = {
   disconnect: async ({ welinaClient }) => {
     const metadata = await welinaClient.getMetadata();
-    delete metadata.basecampTokenInfo;
+    delete metadata.office365TokenInfo;
     await welinaClient.setMetadata(metadata);
   }
 };
@@ -28,7 +28,7 @@ module.exports = withUiHook(async options => {
 
   const metadata = await welinaClient.getMetadata();
 
-  if (!metadata.basecampTokenInfo && payload.query && payload.query.code) {
+  if (!metadata.office365TokenInfo && payload.query && payload.query.code) {
     await completeOAuthProcess({
       code: payload.query.code,
       welinaClient,
@@ -36,12 +36,12 @@ module.exports = withUiHook(async options => {
     });
   }
 
-  if (metadata.basecampTokenInfo) {
-    const authorizations = await getAuthorizations(metadata.basecampTokenInfo);
+  if (metadata.office365TokenInfo) {
+    const profile = await getCurrentUser(metadata.office365TokenInfo);
+    console.log('profile', profile);
     return htm`
       <Page>
-        <P>Connected with user: ${authorizations.identity.email_address}</P>
-        <P>Authorized account: ${metadata.account.name} (${metadata.account.id})</P>
+        <P>Connected with user: ${profile.userPrincipalName}</P>
       </Page>
 		`;
   }
@@ -52,7 +52,7 @@ module.exports = withUiHook(async options => {
 
   return htm`
     <Page>
-     <Link href=${connectUrl}>Connect With Basecamp</Link>
+     <Link href=${connectUrl}>Connect With Office 365</Link>
     </Page>
   `;
 });

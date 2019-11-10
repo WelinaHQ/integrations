@@ -1,7 +1,7 @@
 {
-	"name": "google-connect",
+	"name": "office365",
   "version": 2,
-	"alias": "welina-google-connect",
+	"alias": "welina-office365",
 	"scope": "welina",
   "builds": [
 		{ "src": "index.js", "use": "@now/node" },
@@ -12,15 +12,18 @@
 	"routes": [
 		{ "src": "/connect", "dest": "/connect.js" },
 		{ "src": "/callback", "dest": "/callback.js" },
+		{ "src": "/invite-user/check", "dest": "/actions/invite-user/check.js" },
+		{ "src": "/invite-user/set", "dest": "/actions/invite-user/set.js" },
+		{ "src": "/invite-user/unset", "dest": "/actions/invite-user/unset.js" },
 		{ "src": "/create-user/check", "dest": "/actions/create-user/check.js" },
 		{ "src": "/create-user/set", "dest": "/actions/create-user/set.js" },
 		{ "src": "/create-user/unset", "dest": "/actions/create-user/unset.js" }
 	],
 	"env": {
 		"NODE_ENV": "production",
-		"ROOT_URL": "https://google-connect.welina.now.sh",
-		"GOOGLE_CLIENT_ID": "969539219552-c32fdu5o5b689t3ktra7usa0b083s60o.apps.googleusercontent.com",
-		"GOOGLE_CLIENT_SECRET": "@google-client-secret",
-		"GSUITE_SENDGRID_API_KEY": "@gsuite-sendgrid-api-key"
+		"ROOT_URL": "https://office365.welina.now.sh",
+		"OFFICE_CLIENT_ID": "d93cf03d-1b8a-454e-987e-15c5cfc82ae3",
+		"OFFICE_CLIENT_SECRET": "@office-client-secret",
+		"OFFICE_SENDGRID_API_KEY": "@office-sendgrid-api-key"
 	}
 }

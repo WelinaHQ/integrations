@@ -17,7 +17,6 @@ async function completeOAuthProcess({ code, welinaClient, metadata }) {
       throw new Error(`Invalid status code on google token fetching`);
     }
 
-
     metadata.googleTokenInfo = response.tokens;
 
     auth.setCredentials(metadata.googleTokenInfo);

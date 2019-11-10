@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   const prependKeys = (obj, prepend) => {
     return fromEntries(
       Object.entries(obj).map(([key, value]) => [
-        camelcase(`${prepend}_${key}`),
+        camelcase(`${prepend}:${key}`),
         value
       ])
     );
@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
     dynamic_template_data: {
       ...memberProps,
       ...organisationProps,
-      invitationLink: metadata.invitationLink
+      slackInvite: metadata.invitationLink
     }
   };
 

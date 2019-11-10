@@ -1,17 +1,12 @@
 const { withClient } = require("@welina/integration-utils");
-const { google } = require("googleapis");
-const slugify = require("@sindresorhus/slugify");
 const client = require("@sendgrid/mail");
 const password = require("secure-random-password");
-const fromEntries = require('fromentries');
+const fromEntries = require("fromentries");
 const camelcase = require("camelcase");
+const createInOrganisation = require("../../lib/create-in-organisation");
+const refreshToken = require("../../lib/refresh-token");
 
-const {
-  ROOT_URL,
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  GSUITE_SENDGRID_API_KEY
-} = process.env;
+const { OFFICE_SENDGRID_API_KEY } = process.env;
 
 const prependKeys = (obj, prepend) => {
   return fromEntries(
@@ -25,46 +20,49 @@ const prependKeys = (obj, prepend) => {
 module.exports = withClient(async options => {
   const { payload, welinaClient } = options;
   const { member, metadata, headers } = payload;
+  console.log("member", member);
 
-  const auth = new google.auth.OAuth2(
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
-    `${ROOT_URL}/callback`
-  );
+  const {
+    last_name,
+    first_name,
+    professional_email,
+    personal_email,
+    organisation,
+    team
+  } = member;
 
-  auth.setCredentials(metadata.googleTokenInfo);
-
-  const { last_name, first_name } = member;
-
-  const email = `${slugify(first_name)}.${slugify(last_name)}@${
-    metadata.domainName
-  }`;
   const emailPassword = password.randomPassword();
+  const email = `${first_name.toLowerCase()}.${last_name.toLowerCase()}@${metadata.domain}`;
 
-  const newUser = {
-    name: {
-      familyName: last_name,
-      givenName: first_name
-    },
-    primaryEmail: email,
-    password: emailPassword,
-    changePasswordAtNextLogin: true
-  };
+  let createRes = await createInOrganisation(metadata, {
+    firstName: first_name,
+    lastName: last_name,
+    email,
+    password: emailPassword
+  });
 
-  const directory = google.admin({ version: "directory_v1", auth });
+  if (createRes.error) {
+    if (createRes.error.message === "Access token has expired.") {
+      const updatedData = await refreshToken({ welinaClient, metadata });
+      createRes = await createInOrganisation(updatedData, {
+        firstName: first_name,
+        lastName: last_name,
+        email,
+        password: emailPassword
+      });
 
-  try {
-    await directory.users.insert({
-      resource: newUser
-    });
-  } catch (error) {
-    console.log("error inserting gsuite user", error);
-    throw error;
+      if (createRes.error) {
+        throw new Error(createRes.error);
+      }
+    } else {
+      throw new Error(createRes.error);
+    }
   }
+
 
   try {
     const variables = { memberId: member.id, email };
-    await welinaClient.fetchAndThrow(
+    const updateMemberRes = await welinaClient.fetchAndThrow(
       `mutation updateMember($memberId: uuid!, $email: String!) {
       __typename
       update_member(where: {id: {_eq: $memberId}}, _set: {professional_email: $email}) {
@@ -74,12 +72,13 @@ module.exports = withClient(async options => {
       variables,
       headers
     );
+    console.log('updateMemberRes', updateMemberRes);
   } catch (error) {
     console.log("error updating welina professional_email", error);
     throw error;
   }
 
-  client.setApiKey(GSUITE_SENDGRID_API_KEY);
+  client.setApiKey(OFFICE_SENDGRID_API_KEY);
 
   const memberProps = prependKeys(member, "member");
   const organisationProps = prependKeys(member.organisation, "organisation");
@@ -87,7 +86,7 @@ module.exports = withClient(async options => {
   const msg = {
     to: member.personal_email,
     from: "welcome@welina.io",
-    templateId: "d-91288eb031cf4042a68f4ab009c005f9",
+    templateId: "d-ee618dac05974282ad162bd8922461b8",
     dynamic_template_data: {
       ...memberProps,
       ...organisationProps,

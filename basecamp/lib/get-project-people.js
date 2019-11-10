@@ -12,7 +12,6 @@ async function getProjectPeople(metadata) {
   });
 
   const response = await res.json();
-  console.log('response', response);
 
   return response;
 }

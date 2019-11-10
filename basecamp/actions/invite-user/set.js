@@ -1,10 +1,7 @@
-const { withClient } = require("@welina/integration-utils");
 const addToProject = require("../../lib/add-to-project");
 
-module.exports = withClient(async options => {
-  const { payload, welinaClient } = options;
-  const { member, metadata, headers } = payload;
-
+module.exports = async (req, res) => {
+  const { member, metadata } = req.body;
   console.log("member", member);
 
   const {
@@ -23,7 +20,7 @@ module.exports = withClient(async options => {
     company: organisation.name
   });
 
-  return {
+  res.json({
     success: true
-  };
-});
+  });
+};

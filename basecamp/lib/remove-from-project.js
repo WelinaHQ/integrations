@@ -2,10 +2,10 @@ const fetch = require("node-fetch");
 const getProjectPeople = require("./get-project-people");
 
 async function removeFromProject(metadata, { email }) {
-
+  console.log('removeFromProject', email);
   const people = await getProjectPeople(metadata);
-  console.log('people', people);
   const person = people.find(p => p.email_address === email);
+  console.log('person', person);
   
   const url = `https://3.basecampapi.com/${metadata.account.id}/projects/${metadata.project}/people/users.json`;
   console.log("url", url);
