@@ -32,7 +32,6 @@ module.exports = withUiHook(async options => {
   }
 
   const metadata = await welinaClient.getMetadata();
-  console.log("metadata", metadata);
 
   if (metadata.apiKey) {
     client.setApiKey(metadata.apiKey);
@@ -66,10 +65,10 @@ module.exports = withUiHook(async options => {
   return htm`
     <Page>
       <P>Your Sendgrid api key:</P>
-      <Box>
+      <Box maxWidth="450px">
         <Input name="apiKey" placeholder="api key" />
       </Box>
-      <Button action="submitApiKey" invert>Submit</Button>
+      <Button action="submitApiKey" mt="4">Submit</Button>
     </Page>
   `;
 });

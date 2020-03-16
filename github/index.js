@@ -43,9 +43,9 @@ module.exports = withUiHook(async options => {
 			<Page>
 				<P>Connected with Github user:</P>
         <P>
-          <a target="_blank" href=${"https://github.com/" + githubUser.login}>${githubUser.name || githubUser.login}</a>
+          <Link target="_blank" href=${"https://github.com/" + githubUser.login}>${githubUser.name || githubUser.login}</Link>
 				</P>
-				<Button small action="disconnect">Disconnect</Button>
+				<Button variant="invert-red" action="disconnect">Disconnect</Button>
 			</Page>
 		`;
   }
@@ -56,7 +56,7 @@ module.exports = withUiHook(async options => {
 
   return htm`
     <Page>
-     <Link href=${connectUrl}>Connect With GitHub</Link>
+      <Button as="a" variant="blue" href=${connectUrl}>Connect With GitHub</Link>
     </Page>
   `;
 });

@@ -31,7 +31,7 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
       >
       ${options.map(
         option => htm`
-        <Option key="${option.id}" value="${option.id}" label=${option.label} />
+        <Option key="${option.id}" value="${option.id}" label="${option.label}" />
       `
       )}
       </Select>

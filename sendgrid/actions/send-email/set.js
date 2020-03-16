@@ -3,9 +3,6 @@ const client = require("@sendgrid/mail");
 module.exports = async (req, res) => {
   const { member, metadata } = req.body;
 
-  console.log("metadata", metadata);
-  console.log("metadata.apiKey", metadata.apiKey);
-
   client.setApiKey(metadata.apiKey);
 
   const msg = {
@@ -19,8 +16,6 @@ module.exports = async (req, res) => {
       ...member
     }
   };
-
-  console.log("msg", msg);
 
   await client.send(msg);
 
