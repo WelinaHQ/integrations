@@ -1,6 +1,6 @@
-const { htm, withUiHook } = require("@welina/integration-utils");
-const completeOAuthProcess = require("./lib/complete-oauth");
-const getAuthorizations = require("./lib/get-authorizations");
+const { htm, withUiHook } = require('@welina/integration-utils');
+const completeOAuthProcess = require('./lib/complete-oauth');
+const getAuthorizations = require('./lib/get-authorizations');
 
 const { ROOT_URL } = process.env;
 
@@ -52,7 +52,7 @@ module.exports = withUiHook(async options => {
 
   return htm`
     <Page>
-     <Link href=${connectUrl}>Connect With Basecamp</Link>
+     <Button as="a" variant="blue" href=${connectUrl}>Connect With Basecamp</Link>
     </Page>
   `;
 });

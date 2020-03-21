@@ -35,7 +35,8 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
 
   return htm`
     <Page>
-      <P>In which github team would you like to add those members?</P>
+      <Text mb="4">In which github team would you like to add those employees?</Text>
+      <Text mb="4"><strong>Warning:</strong> task will only work to employees having a github username!</Text>
       <Select
         name="team"
         value="${clientState.teamId || options[0].id}"
@@ -43,11 +44,11 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
       >
       ${options.map(
         option => htm`
-        <option value="${option.id}">${option.label}</option>
+        <Option value="${option.id}" label="${option.label}" />
       `
       )}
       </Select>
-      <Button action="submit">Submit</Button>
+      <Button action="submit" mt="4">Submit</Button>
     </Page>
   `;
 });

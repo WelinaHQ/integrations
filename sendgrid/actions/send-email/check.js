@@ -13,16 +13,16 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
 
   return htm`
     <Page>
-      <Input name="fromEmail" placeholder="Sender email" />
-      <Input name="templateId" placeholder="Sendgrid template id" />
-      <div>
-        <Input type="radio" id="perso" name="emailUsed" value="perso" />
-        <label for="perso">Use personal email</label>
-      </div>
-      <div>
-        <Input type="radio" id="pro" name="emailUsed" value="pro" />
-        <label for="pro">Use professional email</label>
-      </div>
+      <Input name="fromEmail" placeholder="Sender email (from:)" mb="4" />
+      <Input name="templateId" placeholder="Sendgrid template id" mb="4" />
+      <Box mb="2">
+        <Radio id="perso" name="emailUsed" value="perso" mr="1" />
+        <label for="perso">Send to employee personal email address</label>
+      </Box>
+      <Box mb="2">
+        <Radio id="pro" name="emailUsed" value="pro" mr="1" />
+        <label for="pro">Send to employee professional email address</label>
+      </Box>
       <P>
         Those variables can be used inside your template:
         <ul>
