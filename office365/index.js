@@ -1,6 +1,7 @@
 const { htm, withUiHook } = require("@welina/integration-utils");
 const completeOAuthProcess = require("./lib/complete-oauth");
 const getCurrentUser = require("./lib/get-current-user");
+const refreshToken = require("./lib/refresh-token");
 
 const { ROOT_URL } = process.env;
 
@@ -37,11 +38,25 @@ module.exports = withUiHook(async options => {
   }
 
   if (metadata.office365TokenInfo) {
-    const profile = await getCurrentUser(metadata.office365TokenInfo);
-    console.log('profile', profile);
+    const profileRes = await getCurrentUser(metadata.office365TokenInfo);
+
+    if (profileRes.error) {
+      if (profileRes.error.message === "Access token has expired.") {
+        const updatedData = await refreshToken({ welinaClient, metadata });
+        profileRes = await getCurrentUser(metadata.office365TokenInfo);
+  
+        if (profileRes.error) {
+          throw new Error(profileRes.error);
+        }
+      } else {
+        throw new Error(profileRes.error);
+      }
+    }
+
+    console.log('profileRes', profileRes);
     return htm`
       <Page>
-        <P>Connected with user: ${profile.userPrincipalName}</P>
+        <P>Connected with user: ${profileRes.userPrincipalName}</P>
       </Page>
 		`;
   }

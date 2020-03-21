@@ -1,0 +1,19 @@
+{
+	"name": "welina-integration",
+  "version": 2,
+	"alias": "welina-integration",
+	"scope": "welina",
+  "builds": [
+		{ "src": "index.js", "use": "@now/node" },
+		{ "src": "actions/**/*.js", "use": "@now/node" }
+	],
+	"routes": [
+		{ "src": "/send-email/check", "dest": "/actions/send-email/check.js" },
+		{ "src": "/send-email/set", "dest": "/actions/send-email/set.js" }
+	],
+	"env": {
+		"NODE_ENV": "production",
+		"ROOT_URL": "https://sendgrid.welina.now.sh",
+		"SENDGRID_API_KEY": "@sendgrid-api-key"
+	}
+}

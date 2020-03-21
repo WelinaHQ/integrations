@@ -20,7 +20,8 @@ module.exports = async (req, res) => {
   if (inviteRes.error) {
     if (inviteRes.error.message === "Access token has expired.") {
       const updatedData = await addToOrganisation(metadata, {
-        email: metadata.emailUsed === "pro" ? professional_email : personal_email
+        email:
+          metadata.emailUsed === "pro" ? professional_email : personal_email
       });
 
       if (inviteRes.error) {
@@ -30,7 +31,8 @@ module.exports = async (req, res) => {
       throw new Error(inviteRes.error);
     }
 
-  res.json({
-    success: true
-  });
+    res.json({
+      success: true
+    });
+  }
 };
