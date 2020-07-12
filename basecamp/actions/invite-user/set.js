@@ -1,7 +1,10 @@
+const { withClient } = require('@welina/integration-utils');
 const addToProject = require('../../lib/add-to-project');
+const refreshAndSaveToken = require('../../lib/refresh-save-token');
 
-module.exports = async (req, res) => {
-  const { member, metadata } = req.body;
+module.exports = withClient(async (options) => {
+  const { payload, welinaClient } = options;
+  const { member, metadata } = payload;
 
   const {
     last_name,
@@ -20,11 +23,16 @@ module.exports = async (req, res) => {
   };
 
   try {
-    const result = await addToProject(metadata, params);
-    res.json({
-      success: true,
+    const newMetadata = await refreshAndSaveToken(metadata.basecampTokenInfo.refresh_token, {
+      metadata,
+      welinaClient,
     });
+    const result = await addToProject(newMetadata, params);
+    return {
+      success: true,
+      result,
+    };
   } catch (error) {
     console.log('error', error);
   }
-};
+});

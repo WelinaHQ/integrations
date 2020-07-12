@@ -1,18 +1,25 @@
-const removeFromProject = require("../../lib/remove-from-project");
+const { withClient } = require('@welina/integration-utils');
+const removeFromProject = require('../../lib/remove-from-project');
+const refreshAndSaveToken = require('../../lib/refresh-save-token');
 
-module.exports = async (req, res) => {
-  const { member, metadata } = req.body;
+module.exports = withClient(async (options) => {
+  const { payload, welinaClient } = options;
+  const { member, metadata } = payload;
 
-  console.log("member", member);
-  console.log("metadata", metadata);
+  console.log('member', member);
+  console.log('metadata', metadata);
 
   const { professional_email, personal_email } = member;
 
-  await removeFromProject(metadata, {
-    email: metadata.emailUsed === "pro" ? professional_email : personal_email
+  const newMetadata = await refreshAndSaveToken(metadata.basecampTokenInfo.refresh_token, {
+    metadata,
+    welinaClient,
+  });
+  await removeFromProject(newMetadata, {
+    email: metadata.emailUsed === 'pro' ? professional_email : personal_email,
   });
 
-  res.json({
-    success: true
-  });
-};
+  return {
+    success: true,
+  };
+});

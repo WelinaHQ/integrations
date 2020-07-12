@@ -1,5 +1,6 @@
 const { htm, withUiHook } = require('@welina/integration-utils');
 const getProjects = require('../../lib/get-projects');
+const refreshAndSaveToken = require('../../lib/refresh-save-token');
 
 module.exports = withUiHook(async ({ payload, welinaClient }) => {
   const { clientState = {} } = payload;
@@ -14,7 +15,9 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
     `;
   }
 
-  const projects = await getProjects(metadata);
+  const newMetadata = await refreshAndSaveToken(metadata.basecampTokenInfo.refresh_token, { metadata, welinaClient })
+
+  const projects = await getProjects(newMetadata);
 
   if (!projects.length) {
     return htm`
