@@ -13,7 +13,9 @@ module.exports = async (req, res) => {
 
   if (!username) {
     console.log("aborting because member don't have a github username");
-    return false;
+    return res.json({
+      success: true
+    });
   }
 
   const result = await octokit.teams.removeMembership({

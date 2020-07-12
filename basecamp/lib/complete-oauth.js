@@ -30,7 +30,6 @@ async function completeOAuthProcess({ code, welinaClient, metadata }) {
       throw new Error(`Invalid status code on basecamp token fetching`);
     }
 
-
     metadata.basecampTokenInfo = response;
     const authorizations = await getAuthorizations(metadata.basecampTokenInfo);
     console.log('authorizations', authorizations);

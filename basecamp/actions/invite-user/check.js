@@ -1,5 +1,5 @@
-const { htm, withUiHook } = require("@welina/integration-utils");
-const getProjects = require("../../lib/get-projects");
+const { htm, withUiHook } = require('@welina/integration-utils');
+const getProjects = require('../../lib/get-projects');
 
 module.exports = withUiHook(async ({ payload, welinaClient }) => {
   const { clientState = {} } = payload;
@@ -14,36 +14,47 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
     `;
   }
 
-  const basecampProject = await getProjects(metadata);
+  const projects = await getProjects(metadata);
 
-  const options = basecampProject.map(project => ({
+  if (!projects.length) {
+    return htm`
+      <Page>
+        <Text>Sorry but we didn't found any project in your Basecamp organization</Text>
+      </Page>
+    `;
+  }
+
+  const options = projects.map((project) => ({
     id: project.id,
-    label: project.name
+    label: project.name,
   }));
 
   return htm`
     <Page>
       <P>In which Basecamp project would you like to add those members?</P>
       <Select
+        mb="4"
         name="project"
         value="${clientState.projectId || options[0].id}"
         placeholder="Select a Basecamp project"
       >
       ${options.map(
-        option => htm`
+        (option) => htm`
         <Option key="${option.id}" value="${option.id}" label="${option.label}" />
       `
       )}
       </Select>
-      <div>
-        <Input type="radio" id="perso" name="emailUsed" value="perso" />
-        <label for="perso">Use personal email</label>
-      </div>
-      <div>
-        <Input type="radio" id="pro" name="emailUsed" value="pro" />
-        <label for="pro">Use professional email</label>
-      </div>
-      <Button action="submit">Submit</Button>
+      <Box mb="4">
+        <div>
+          <Radio id="perso" name="emailUsed" value="perso" />
+          <label for="perso">Use personal email</label>
+        </div>
+        <div>
+          <Radio id="pro" name="emailUsed" value="pro" />
+          <label for="pro">Use professional email</label>
+        </div>
+      </Box>
+      <Button action="submit">Save Task</Button>
     </Page>
   `;
 });

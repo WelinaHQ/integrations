@@ -1,6 +1,7 @@
 const { htm, withUiHook } = require('@welina/integration-utils');
 const completeOAuthProcess = require('./lib/complete-oauth');
 const getAuthorizations = require('./lib/get-authorizations');
+const refreshToken = require('./lib/refresh-token');
 
 const { ROOT_URL } = process.env;
 
@@ -9,10 +10,10 @@ const actions = {
     const metadata = await welinaClient.getMetadata();
     delete metadata.basecampTokenInfo;
     await welinaClient.setMetadata(metadata);
-  }
+  },
 };
 
-module.exports = withUiHook(async options => {
+module.exports = withUiHook(async (options) => {
   const { payload, welinaClient } = options;
   const { action } = payload;
 
@@ -32,12 +33,27 @@ module.exports = withUiHook(async options => {
     await completeOAuthProcess({
       code: payload.query.code,
       welinaClient,
-      metadata
+      metadata,
     });
   }
 
   if (metadata.basecampTokenInfo) {
-    const authorizations = await getAuthorizations(metadata.basecampTokenInfo);
+    let authorizations = await getAuthorizations(metadata.basecampTokenInfo);
+    if (authorizations && authorizations.error) {
+      const refreshRes = await refreshToken(metadata.basecampTokenInfo);
+
+      if (refreshRes.access_token) {
+        const newMetadata = {
+          ...metadata,
+          basecampTokenInfo: {
+            ...(metadata.basecampTokenInfo || {}),
+            access_token: refreshRes.access_token,
+          },
+        };
+        authorizations = await getAuthorizations(newMetadata.basecampTokenInfo);
+        await welinaClient.setMetadata(newMetadata);
+      }
+    }
     return htm`
       <Page>
         <P>Connected with user: ${authorizations.identity.email_address}</P>
@@ -52,7 +68,7 @@ module.exports = withUiHook(async options => {
 
   return htm`
     <Page>
-     <Button as="a" variant="blue" href=${connectUrl}>Connect With Basecamp</Link>
+      <Button as="a" variant="blue" href=${connectUrl}>Connect With Basecamp</Link>
     </Page>
   `;
 });

@@ -6,7 +6,7 @@ async function getProjectPeople(metadata) {
     method: "GET",
     headers: {
       Accept: "application/json",
-      "User-Agent": "Welina (matthieu@welina.io)",
+      "User-Agent": "Welina Integration (matthieu@welina.io)",
       "Authorization": `Bearer ${metadata.basecampTokenInfo.access_token}`
     }
   });

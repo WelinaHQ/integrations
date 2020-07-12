@@ -5,15 +5,15 @@ async function getAuthorizations(tokenInfo) {
     method: "GET",
     headers: {
       Accept: "application/json",
-      "User-Agent": "Welina (matthieu@welina.io)",
+      "User-Agent": "Welina Integration (matthieu@welina.io)",
       "Authorization": `Bearer ${tokenInfo.access_token}`
     }
   });
 
   const response = await res.json();
-  console.log('response', response);
 
   return response;
 }
 
 module.exports = getAuthorizations;
+

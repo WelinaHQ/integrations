@@ -1,8 +1,7 @@
 {
-	"name": "basecamp",
   "version": 2,
-	"alias": "welina-basecamp",
 	"scope": "welina",
+	"regions": ["cdg1", "sfo1", "iad1", "arn1", "bru", "gru1", "lhr1", "bom1", "icn1", "sin1", "syd1"],
   "builds": [
 		{ "src": "index.js", "use": "@now/node" },
 		{ "src": "connect.js", "use": "@now/node" },
@@ -18,7 +17,7 @@
 	],
 	"env": {
 		"NODE_ENV": "production",
-		"ROOT_URL": "https://basecamp.welina.now.sh",
+		"ROOT_URL": "https://welina-basecamp.vercel.app",
 		"BASECAMP_CLIENT_ID": "@basecamp-client-id",
 		"BASECAMP_CLIENT_SECRET": "@basecamp-client-secret"
 	}
