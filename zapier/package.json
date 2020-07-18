@@ -1,0 +1,13 @@
+{
+	"name": "welina-zapier",
+	"scripts": {
+		"deploy:prod": "now --prod --scope=welina",
+		"dev": "now dev --listen 5005"
+	},
+	"dependencies": {
+		"@welina/integration-utils": "0.4.3",
+		"htm": "2.1.1",
+		"shortid": "^2.2.15"
+	},
+	"version": "0.0.0"
+}

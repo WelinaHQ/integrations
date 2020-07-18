@@ -1,0 +1,16 @@
+{
+  "version": 2,
+	"scope": "welina",
+	"alias": "welina-zapier",
+  "builds": [
+		{ "src": "index.js", "use": "@now/node" },
+		{ "src": "actions/**/*.js", "use": "@now/node" }
+	],
+	"routes": [
+		{ "src": "/use-zap/check", "dest": "/actions/use-zap/check.js" }
+	],
+	"env": {
+		"NODE_ENV": "production",
+		"ROOT_URL": "https://welina-zapier.vercel.app"
+	}
+}
