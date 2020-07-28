@@ -15,14 +15,16 @@ module.exports = withUiHook(async ({ payload, welinaClient }) => {
 
   return htm`
     <Page>
-      <div>
-        <Input type="radio" id="perso" name="emailUsed" value="perso" />
-        <label for="perso">Use personal email</label>
-      </div>
-      <div>
-        <Input type="radio" id="pro" name="emailUsed" value="pro" />
-        <label for="pro">Use professional email</label>
-      </div>
+      <Box mb="4">
+        <div>
+          <Radio id="perso" name="emailUsed" value="perso" />
+          <label for="perso">Use personal email</label>
+        </div>
+        <div>
+          <Radio id="pro" name="emailUsed" value="pro" />
+          <label for="pro">Use professional email</label>
+        </div>
+      </Box>
       <Button action="submit" invert>Submit</Button>
     </Page>
   `;
