@@ -11,7 +11,7 @@
 		"@welina/integration-utils": "0.4.3",
 		"camelcase": "^5.3.1",
 		"cookie": "0.3.1",
-		"dot-prop": "5.1.0",
+		"dot-prop": "5.1.1",
 		"fromentries": "^1.2.0",
 		"googleapis": "^44.0.0",
 		"htm": "2.1.1",
