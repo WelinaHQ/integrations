@@ -9,7 +9,7 @@
 		"@sindresorhus/slugify": "^0.9.1",
 		"@welina/integration-utils": "0.4.3",
 		"cookie": "0.3.1",
-		"dot-prop": "5.1.0",
+		"dot-prop": "5.1.1",
 		"htm": "2.1.1",
 		"lodash.template": "^4.5.0",
 		"node-fetch": "2.6.0",
