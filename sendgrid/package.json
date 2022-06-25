@@ -13,7 +13,7 @@
 		"dot-prop": "5.1.0",
 		"googleapis": "^44.0.0",
 		"htm": "2.1.1",
-		"node-fetch": "2.6.0",
+		"node-fetch": "2.6.7",
 		"query-string": "^6.8.3"
 	},
 	"version": "0.0.0"
